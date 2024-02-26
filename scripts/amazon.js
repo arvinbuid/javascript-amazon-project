@@ -1,4 +1,4 @@
-import {cart} from "../data/cart.js";
+import {cart, addToCart} from "../data/cart.js";
 import {products} from "../data/products.js";
 
 let innerHTML = "";
@@ -53,38 +53,23 @@ products.forEach((product) => {
 
 document.querySelector(".js-products-grid").innerHTML = innerHTML;
 
+function updateCartQuantity() {
+  // Calculating the quantity of the items inside the cart
+
+  let cartQuantity = 0;
+
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+
+  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+}
+
+// Code that when the user click the Add to Cart button, it will call the 2 functions above
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
     const productId = button.dataset.productId;
-
-    // variable to store the same items in the cart
-    let matchingItem;
-
-    // Figuring out if the product is already in the cart
-    cart.forEach((item) => {
-      if (productId === item.productId) {
-        matchingItem = item;
-      }
-    });
-
-    // If the product is on the cart, increase its quantity by 1
-    if (matchingItem) {
-      matchingItem.quantity += 1;
-    } else {
-      cart.push({
-        productId: productId,
-        quantity: 1,
-      });
-    }
-
-    // Calculating the quantity of the items inside the cart
-
-    let cartQuantity = 0;
-
-    cart.forEach((item) => {
-      cartQuantity += item.quantity;
-    });
-
-    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+    addToCart(productId);
+    updateCartQuantity();
   });
 });
