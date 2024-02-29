@@ -126,6 +126,7 @@ export function renderOrderSummary() {
 
       // remove cart item from HTML DOM
       container.remove();
+      renderOrderSummary();
       renderPaymentSummary();
     });
   });
