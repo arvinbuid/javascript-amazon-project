@@ -3,6 +3,7 @@ import {products, getProduct} from "../../data/products.js";
 import formatCurrency from "../utilities/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import {deliveryOptions, getDeliveryOptionId} from "../../data/deliveryOptions.js";
+import {renderPaymentSummary} from "./paymentSummary.js";
 
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
@@ -114,6 +115,7 @@ export function renderOrderSummary() {
 
   document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
 
+  // delete item functionality
   document.querySelectorAll(".js-delete-link").forEach((link) => {
     link.addEventListener("click", () => {
       const productId = link.dataset.productId;
@@ -124,9 +126,11 @@ export function renderOrderSummary() {
 
       // remove cart item from HTML DOM
       container.remove();
+      renderPaymentSummary();
     });
   });
 
+  // code that when the user choose a delivery option, the Order Summary HMTL section will be updated
   document.querySelectorAll(".js-delivery-option").forEach((element) => {
     element.addEventListener("click", () => {
       const {productId, deliveryOptionId} = element.dataset;
@@ -134,6 +138,7 @@ export function renderOrderSummary() {
       updateDeliveryOption(productId, deliveryOptionId);
       // The code below is calling the function itself which is called Recursion
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 }

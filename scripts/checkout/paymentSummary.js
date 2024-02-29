@@ -26,12 +26,6 @@ export function renderPaymentSummary() {
   // calculating the total order in the cart
   const totalCents = totalBeforeTaxCents + taxCents;
 
-  console.log(`Cart Total: ${productPriceCents}`);
-  console.log(`Total Shipping Cost: ${shippingPriceCents}`);
-  console.log(`Total before tax: ${totalBeforeTaxCents}`);
-  console.log(`Total Tax: ${taxCents}`);
-  console.log(`Total Amount: ${totalCents}`);
-
   // Code to generate the HTML of Order Summary part in checkout.html
 
   const paymentSummaryHTML = `
@@ -66,6 +60,4 @@ export function renderPaymentSummary() {
   `;
 
   document.querySelector(".js-payment-summary").innerHTML = paymentSummaryHTML;
-
-  console.log;
 }
