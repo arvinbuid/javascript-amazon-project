@@ -1,8 +1,8 @@
 import {cart, removeFromCart, updateDeliveryOption} from "../../data/cart.js";
-import {products} from "../../data/products.js";
+import {products, getProduct} from "../../data/products.js";
 import formatCurrency from "../utilities/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
-import {deliveryOptions} from "../../data/deliveryOptions.js";
+import {deliveryOptions, getDeliveryOptionId} from "../../data/deliveryOptions.js";
 
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
@@ -12,26 +12,13 @@ export function renderOrderSummary() {
   cart.forEach((cartItem) => {
     const productId = cartItem.productId;
 
-    let matchingProduct;
-
-    products.forEach((product) => {
-      if (product.id === productId) {
-        matchingProduct = product;
-      }
-    });
+    const matchingProduct = getProduct(productId);
 
     // variable to get the deliveryOptionId from cart variable in cart.js
     const deliveryOptionId = cartItem.deliveryOptionId;
 
     // variable to store the result from looping in deliveryOptions.js to find the matching id inside the cart variable in cart.js
-    let deliveryOption;
-
-    // logic of the looping mentioned from above
-    deliveryOptions.forEach((option) => {
-      if (option.id === deliveryOptionId) {
-        deliveryOption = option;
-      }
-    });
+    const deliveryOption = getDeliveryOptionId(deliveryOptionId);
 
     // calling dayjs() to get the current date
     const today = dayjs();
